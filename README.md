@@ -12,7 +12,10 @@ This is an adapted version of Organic Group, used for the BiC site.
 [Leverage new core entityreference views filter #637](https://github.com/Gizra/og/pull/637)<br>
 [Add a content listing route #423](https://github.com/Gizra/og/pull/423)<br>
 [Create GroupMembership block condition plugin #351](https://github.com/Gizra/og/pull/351)<br>
-
+[Add 'auto_add_group_owner_membership' setting #701](https://github.com/Gizra/og/pull/701)<br>
+<br>
+<br>
+<br>
 
 ## DESCRIPTION
 
