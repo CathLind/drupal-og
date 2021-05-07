@@ -5,5 +5,4 @@ id: group_member
 label: 'Group member'
 weight: -3
 is_admin: null
-permissions:
-  - 'download all h5ps'
+permissions: {  }
