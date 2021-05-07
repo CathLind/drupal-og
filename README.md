@@ -4,7 +4,7 @@ This is an adapted version of Organic Group, used for the BiC site.
 
 ## ADDED CODE
 
-[WIP: Adds basic UI for adding, editing and removing group memberships #231](https://github.com/Gizra/og/pull/231)
+[WIP: Adds basic UI for adding, editing and removing group memberships #231](https://github.com/Gizra/og/pull/231)<br>
 [426 Add my groups overview #566](https://github.com/Gizra/og/pull/566)
 
 ## DESCRIPTION
