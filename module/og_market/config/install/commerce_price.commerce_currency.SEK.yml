@@ -1,0 +1,8 @@
+langcode: en
+status: true
+dependencies: {  }
+currencyCode: SEK
+name: 'Swedish Krona'
+numericCode: '752'
+symbol: SEK
+fractionDigits: 2
