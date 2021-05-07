@@ -1,0 +1,23 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: piggy_bank
+label: 'Piggy Bank'
+target_entity_type: node
+transactor:
+  id: transaction_balance
+  settings:
+    amount: field_amount
+    balance: field_balance
+    log_message: field_log_message
+    last_transaction: field_last_transaction
+    target_balance: field_balance
+    execution: '1'
+    local_task: '1'
+bundles:
+  - workgroup
+options:
+  execution: '1'
+  local_task: '1'
