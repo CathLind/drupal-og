@@ -9,6 +9,7 @@ This is an adapted version of Organic Group, used for the BiC site.
 [254 Default argument for current user memberships #565](https://github.com/Gizra/og/pull/565)<br>
 [Create og_perm views access plugin #300](https://github.com/Gizra/og/pull/300)<br>
 [Group roles and permissions UI #243](https://github.com/Gizra/og/pull/243)<br>
+[Leverage new core entityreference views filter #637](https://github.com/Gizra/og/pull/637)<br>
 
 
 ## DESCRIPTION
