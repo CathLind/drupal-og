@@ -316,6 +316,47 @@ class GroupTypeManager implements GroupTypeManagerInterface {
   /**
    * {@inheritdoc}
    */
+  public function getGroupMembershipType($entity_type_id, $bundle_id) {
+    $editable = $this->configFactory->getEditable('og.settings');
+    $group_membership_types = $editable->get('group_membership_types');
+
+    if (isset($group_membership_types["$entity_type_id:$bundle_id"])) {
+      return $group_membership_types["$entity_type_id:$bundle_id"];
+    }
+    else {
+      return OgMembershipInterface::TYPE_DEFAULT;
+    }
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function setGroupMembershipType($entity_type_id, $bundle_id, $membership_type_id) {
+    $editable = $this->configFactory->getEditable('og.settings');
+    $group_membership_types = $editable->get('group_membership_types');
+
+    $group_membership_types["$entity_type_id:$bundle_id"] = $membership_type_id;
+
+    $editable->set('group_membership_types', $group_membership_types);
+    $editable->save();
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function removeGroupMembershipType($entity_type_id, $bundle_id) {
+    $editable = $this->configFactory->getEditable('og.settings');
+    $group_membership_types = $editable->get('group_membership_types');
+
+    unset($group_membership_types["$entity_type_id:$bundle_id"]);
+
+    $editable->set('group_membership_types', $group_membership_types);
+    $editable->save();
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function reset() {
     $this->resetGroupMap();
     $this->resetGroupRelationMap();
