@@ -154,6 +154,12 @@ class OgEventSubscriber implements EventSubscriberInterface {
         'restrict access' => TRUE,
       ]),
       new GroupPermission([
+        'name' => 'access content overview',
+        'title' => $this->t('Access the Content overview page'),
+        'description' => $this->t('User may see and administer content related to the group.'),
+        'default roles' => [OgRoleInterface::ADMINISTRATOR],
+      ]),
+      new GroupPermission([
         'name' => 'administer permissions',
         'title' => $this->t('Administer permissions'),
         'description' => $this->t('Users may view, create, edit and delete permissions and roles within the group.'),
@@ -390,6 +396,16 @@ class OgEventSubscriber implements EventSubscriberInterface {
       ],
     ];
 
+    $routes_info['content'] = [
+      'controller' => '\Drupal\og\Controller\OgAdminContentController::content',
+      'title' => 'Group content',
+      'description' => 'Listing of group content',
+      'path' => 'content',
+      'requirements' => [
+        '_og_user_access_group' => 'access content overview',
+      ],
+    ];
+   
     $event->setRoutesInfo($routes_info);
   }
 
