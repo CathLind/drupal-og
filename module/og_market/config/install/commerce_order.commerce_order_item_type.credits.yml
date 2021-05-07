@@ -1,0 +1,14 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - commerce_tax
+third_party_settings:
+  commerce_tax:
+    taxable_type: services
+label: Credits
+id: credits
+purchasableEntityType: commerce_product_variation
+orderType: credits
+traits: {  }
+locked: false
