@@ -12,6 +12,7 @@ use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Routing\RedirectDestinationTrait;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\Url;
+use Drupal\og\GroupTypeManagerInterface;
 use Drupal\og\Og;
 use Drupal\og\OgAccessInterface;
 use Drupal\og\OgMembershipInterface;
@@ -49,6 +50,13 @@ class GroupSubscribeFormatter extends FormatterBase implements ContainerFactoryP
   protected $ogAccess;
 
   /**
+   * The group manager.
+   *
+   * @var \Drupal\og\GroupTypeManagerInterface
+   */
+  protected $groupTypeManager;
+
+  /**
    * The entity type manager service.
    *
    * @var \Drupal\Core\Entity\EntityTypeManagerInterface
@@ -76,18 +84,21 @@ class GroupSubscribeFormatter extends FormatterBase implements ContainerFactoryP
    *   The current user.
    * @param \Drupal\og\OgAccessInterface $og_access
    *   The OG access service.
+   * @param \Drupal\og\GroupTypeManagerInterface $group_manager
+   *   The group manager.
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
    *   The entity type manager service.
    *
    * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
    * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
    */
-  public function __construct($plugin_id, $plugin_definition, FieldDefinitionInterface $field_definition, array $settings, $label, $view_mode, array $third_party_settings, AccountInterface $current_user, OgAccessInterface $og_access, EntityTypeManagerInterface $entity_type_manager) {
+  public function __construct($plugin_id, $plugin_definition, FieldDefinitionInterface $field_definition, array $settings, $label, $view_mode, array $third_party_settings, EntityManagerInterface $entity_manager, AccountInterface $current_user, OgAccessInterface $og_access, EntityTypeManagerInterface $entity_type_manager, GroupTypeManagerInterface $group_manager) {
     parent::__construct($plugin_id, $plugin_definition, $field_definition, $settings, $label, $view_mode, $third_party_settings);
 
     $this->currentUser = $current_user;
     $this->ogAccess = $og_access;
     $this->entityTypeManager = $entity_type_manager->getStorage('user');
+    $this->groupTypeManager = $group_manager;
   }
 
   /**
@@ -104,7 +115,8 @@ class GroupSubscribeFormatter extends FormatterBase implements ContainerFactoryP
       $configuration['third_party_settings'],
       $container->get('current_user'),
       $container->get('og.access'),
-      $container->get('entity_type.manager')
+      $container->get('entity_type.manager'),
+      $container->get('og.group_type_manager')
     );
   }
 
@@ -161,6 +173,8 @@ class GroupSubscribeFormatter extends FormatterBase implements ContainerFactoryP
           'entity_type_id' => $group->getEntityTypeId(),
           'group' => $group->id(),
           'og_membership_type' => OgMembershipInterface::TYPE_DEFAULT,
+          'membership_type' => $this->groupTypeManager->getGroupMembershipType($group->getEntityTypeId(), $group->bundle()),
+        ];
         ];
 
         $url = Url::fromRoute('og.subscribe', $parameters);
