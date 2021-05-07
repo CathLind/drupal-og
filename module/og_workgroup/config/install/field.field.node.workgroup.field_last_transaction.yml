@@ -1,0 +1,23 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_last_transaction
+    - node.type.workgroup
+    - transaction.type.piggy_bank
+id: node.workgroup.field_last_transaction
+field_name: field_last_transaction
+entity_type: node
+bundle: workgroup
+label: 'Last transaction'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:transaction'
+  handler_settings:
+    target_bundles:
+      - piggy_bank
+field_type: entity_reference
