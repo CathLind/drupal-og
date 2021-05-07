@@ -1,5 +1,7 @@
 ![Status](https://travis-ci.org/Gizra/og.svg?branch=8.x-1.x)
 
+This is an adapted version of Organic Group, used for the BiC site.
+
 ## CHANGES FOR THE BiC SITE
 
 ## ADDED CODE
