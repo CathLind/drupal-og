@@ -1,5 +1,11 @@
 ![Status](https://travis-ci.org/Gizra/og.svg?branch=8.x-1.x)
 
+## CHANGES FOR THE BiC SITE
+
+## ADDED CODE
+
+[WIP: Adds basic UI for adding, editing and removing group memberships #231](https://github.com/Gizra/og/pull/231/files?file-filters%5B%5D=.module&file-filters%5B%5D=.yml)
+
 ## DESCRIPTION
 
 The Organic Groups module (also referred to as the 'og' module), provides users
