@@ -1,0 +1,22 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_lms_system
+    - node.type.workgroup
+  module:
+    - link
+id: node.workgroup.field_lms_system
+field_name: field_lms_system
+entity_type: node
+bundle: workgroup
+label: 'LMS system'
+description: 'The link to the organisaitons LMS system or website where the content will be uploaded.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  link_type: 16
+  title: 2
+field_type: link
