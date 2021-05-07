@@ -187,13 +187,14 @@ interface MembershipManagerInterface {
    * @param \Drupal\user\UserInterface $user
    *   The user object.
    * @param string $membership_type
-   *   (optional) The membership type. Defaults to
+   *   (optional) The membership type. Defaults to the type set for the group
+   *   type.
    *   \Drupal\og\OgMembershipInterface::TYPE_DEFAULT.
    *
    * @return \Drupal\og\OgMembershipInterface
    *   The unsaved membership object.
    */
-  public function createMembership(EntityInterface $group, UserInterface $user, $membership_type = OgMembershipInterface::TYPE_DEFAULT);
+  public function createMembership(EntityInterface $group, UserInterface $user, $membership_type = NULL);
 
   /**
    * Returns all group IDs associated with the given group content entity.
