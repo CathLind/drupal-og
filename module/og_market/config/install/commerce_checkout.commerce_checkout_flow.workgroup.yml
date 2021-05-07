@@ -1,0 +1,51 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - commerce_payment
+    - og_market
+id: workgroup
+label: Workgroup
+plugin: multistep_default
+configuration:
+  display_checkout_progress: true
+  display_checkout_progress_breadcrumb_links: false
+  panes:
+    completion_message:
+      message:
+        value: "Your order number is [commerce_order:order_number].\r\nYou can view your order on your account page when logged in."
+        format: plain_text
+      step: complete
+      weight: 5
+    completion_register:
+      step: complete
+      weight: 6
+    contact_information:
+      double_entry: false
+      step: order_information
+      weight: 1
+    order_summary:
+      view: ''
+      step: _sidebar
+      weight: 8
+    login:
+      allow_guest_checkout: true
+      allow_registration: false
+      step: login
+      weight: 0
+    review:
+      step: review
+      weight: 3
+    payment_process:
+      capture: true
+      step: payment
+      weight: 4
+    payment_information:
+      step: order_information
+      weight: 2
+    register_group_manager:
+      step: complete
+      weight: 7
+    register_group_credits:
+      step: _disabled
+      weight: 9
