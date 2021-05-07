@@ -49,6 +49,26 @@ interface GroupTypeManagerInterface {
    */
   public function getGroupBundleIdsByEntityType($entity_type_id);
 
+   /**
+   * Returns the group of an entity type.
+   *
+   * @param string $entity_type_id
+   *   The entity type name.
+   *
+   * @return \Drupal\Core\Entity\EntityInterface[]
+   *   Array of groups, or an empty array if none found
+   */
+  public function getGroupsForEntityType($entity_type_id);
+
+  /**
+   * Get all group bundles keyed by entity type.
+   *
+   * @return array
+   *   An associative array, keyed by entity type, each value an indexed array
+   *   of bundle IDs.
+   */
+  public function getAllGroupBundles($entity_type = NULL);
+
   /**
    * Returns a list of all group content bundles IDs keyed by entity type.
    *
@@ -133,6 +153,43 @@ interface GroupTypeManagerInterface {
    * Removes an entity type instance as being an OG group.
    */
   public function removeGroup($entity_type_id, $bundle_id);
+
+   /**
+   * Get the membership type to use for a group.
+   *
+   * If there is no setting for this, falls back to 'default'.
+   *
+   * @param string $entity_type_id
+   *   The entity type ID for the group.
+   * @param string $bundle_id
+   *   The bundle ID for the group.
+   *
+   * @return string
+   *   The membership type ID to use for this group type.
+   */
+  public function getGroupMembershipType($entity_type_id, $bundle_id);
+
+  /**
+   * Set the membership type for a group type.
+   *
+   * @param string $entity_type_id
+   *   The entity type ID for the group.
+   * @param string $bundle_id
+   *   The bundle ID for the group.
+   * @param string $membership_type_id
+   *   The membership type ID to use for this group type.
+   */
+  public function setGroupMembershipType($entity_type_id, $bundle_id, $membership_type_id);
+
+  /**
+   * Clear the membership type setting for a group type.
+   *
+   * @param string $entity_type_id
+   *   The entity type ID for the group.
+   * @param string $bundle_id
+   *   The bundle ID for the group.
+   */
+  public function removeGroupMembershipType($entity_type_id, $bundle_id);
 
   /**
    * Resets all locally stored data.
