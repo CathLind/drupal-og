@@ -1,0 +1,11 @@
+langcode: en
+status: true
+dependencies: {  }
+id: workgroup
+label: Workgroup
+description: ''
+variationType: subscription
+multipleVariations: true
+injectVariationFields: true
+traits: {  }
+locked: false
