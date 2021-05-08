@@ -1,0 +1,9 @@
+langcode: en
+status: true
+dependencies: {  }
+id: credits
+label: Credits
+orderItemType: credits
+generateTitle: false
+traits: {  }
+locked: false
