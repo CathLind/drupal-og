@@ -1,0 +1,8 @@
+langcode: en
+status: true
+dependencies: {  }
+id: european_vat
+label: 'European VAT'
+plugin: european_union_vat
+configuration:
+  display_inclusive: true
