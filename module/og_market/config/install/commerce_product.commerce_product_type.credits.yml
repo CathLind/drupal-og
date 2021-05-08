@@ -1,0 +1,11 @@
+langcode: en
+status: true
+dependencies: {  }
+id: credits
+label: Credits
+description: ''
+variationType: credits
+multipleVariations: true
+injectVariationFields: false
+traits: {  }
+locked: false
