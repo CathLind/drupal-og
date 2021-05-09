@@ -2,7 +2,7 @@ This is an adapted version of Organic Group, used for the BiC site.
 
 ## CHANGES FOR THE BiC SITE
 - Worgroup: Creates a content type called workgroup and add three new roles 'Group manager', 'Group memeber' and 'Group guest'. This is the base for the Market module. Adds expirations date field for the user profile.
-- Market: The main module for commerce logic.
+- Market: The main module for commerce logic. Creates a transaction type 'Piggy bank' attached to the Og group 'Workgroup'. Have commerce checkout pane for group creation and purchasing of 'credits' added to the group Piggy Bank.
 
 ## ADDED CODE
 
