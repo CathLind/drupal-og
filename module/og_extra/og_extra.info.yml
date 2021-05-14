@@ -1,0 +1,10 @@
+name: Organic Groups Extra functionality
+description: Small changes to OG Functionality
+package: Organic Groups
+
+type: module
+core: 8.x
+core_version_requirement: ^8 || ^9
+
+dependencies:
+  - og
