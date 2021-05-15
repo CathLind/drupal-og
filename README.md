@@ -16,7 +16,7 @@ This is an adapted version of Organic Group, used for the BiC site.
 [Create GroupMembership block condition plugin #351](https://github.com/Gizra/og/pull/351)<br>
 [Add 'auto_add_group_owner_membership' setting #701](https://github.com/Gizra/og/pull/701)<br>
 [331 set membership type for group type #333](https://github.com/Gizra/og/pull/333)<br>
-<br>
+Remove any null values when building the list of target groups. Gizra#704<br>
 <br>
 
 ## DESCRIPTION
