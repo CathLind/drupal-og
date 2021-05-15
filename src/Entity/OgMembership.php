@@ -73,7 +73,6 @@ use Drupal\user\UserInterface;
  *   },
  *   handlers = {
  *     "access" = "Drupal\og\OgMembershipAccessControlHandler",
- *     "list_builder" = "Drupal\og\OgMembershipListBuilder",
  *     "views_data" = "Drupal\og\OgMembershipViewsData",
  *     "list_builder" = "Drupal\Core\Entity\EntityListBuilder",
  *     "view_builder" = "Drupal\Core\Entity\EntityViewBuilder",
