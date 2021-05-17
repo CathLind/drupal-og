@@ -27,3 +27,10 @@ The checkout panes and transactions for both.
 *****************************************************
 
 VBO actions for activating user with credits and handle the memberships. No views.
+
+
+*****************************************************
+***  Log for workgroup creations                  ***
+*****************************************************
+
+Eventsubrscriber that creates a log for workgroup creations. Should ev. be moved to the workgroup module. Purpose, monitor for unauthorized workgroups.
