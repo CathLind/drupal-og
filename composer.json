@@ -1,5 +1,5 @@
 {
-    "name": "drupal/og",
+    "name": "og/og",
     "description": "API to allow associating content with groups.",
     "type": "drupal-module",
     "license": "GPL-2.0-or-later",
