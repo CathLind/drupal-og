@@ -13,7 +13,7 @@
 ***  Piggy Bank                                   ***
 *****************************************************
 
-A Piggy Bank connected to the workgroup, dependent on the transaction module. Also creates the workgroup and the necessary user fields.
+A Piggy Bank connected to the workgroup, dependent on the transaction module. 
 
 *****************************************************
 ***  Commerce chechout panes and products         ***
