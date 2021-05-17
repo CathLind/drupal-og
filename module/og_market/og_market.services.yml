@@ -1,0 +1,5 @@
+services:
+  create_workgroup.node.insert:
+    class: Drupal\og_market\EventSubscriber\CreateWorkgroupManager
+    tags:
+    - { name: 'event_subscriber' }
