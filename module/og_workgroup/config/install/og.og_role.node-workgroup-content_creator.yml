@@ -1,0 +1,14 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.workgroup
+id: node-workgroup-content_creator
+label: 'Content creator'
+weight: 5
+is_admin: null
+group_type: node
+group_bundle: workgroup
+group_id: null
+permissions: {  }
+role_type: standard
