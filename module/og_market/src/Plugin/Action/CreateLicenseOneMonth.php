@@ -23,9 +23,9 @@ use Drupal\transaction\Entity\TransactionOperation;
  * entity types.
  *
  * @Action(
- *   id = "renew_license_one_month",
- *   label = @Translation("Renew - one month"),
- *   type = "commerce_license",
+ *   id = "create_license_one_month",
+ *   label = @Translation("Create - one month"),
+ *   type = "og_membership",
  *   confirm = TRUE,
  *   requirements = {
  *     "_permission" = "some permission",
@@ -34,7 +34,7 @@ use Drupal\transaction\Entity\TransactionOperation;
  * )
  */
 
-class RenewLicenseOneMonth extends ViewsBulkOperationsActionBase {
+class CreateLicenseOneMonth extends ViewsBulkOperationsActionBase {
 	
   use StringTranslationTrait;
 
@@ -61,76 +61,69 @@ class RenewLicenseOneMonth extends ViewsBulkOperationsActionBase {
      */
 
 
-	$currentUser = \Drupal\user\Entity\User::load(\Drupal::currentUser()->id());
-	$node = \Drupal::routeMatch()->getParameter('node');
+  $currentUser = \Drupal\user\Entity\User::load(\Drupal::currentUser()->id());
+  $node = \Drupal::routeMatch()->getParameter('node');
   $nid = $node->id();
   $title = $this->$node->title();
-	$rid = 'group_member'; 
+  $rid = 'group_member'; 
 	
-	$piggyId = array(
-	  'target_id' => $nid,
+  $piggyId = array(
+    'target_id' => $nid,
     'target_type' => 'node'
-	);
+    );
 	
-	$role_name = 'node-workgroup-content_creator';
-	$credits = -100;
-	$transaction_type = 'piggy_bank';
+  $role_name = 'node-workgroup-content_creator';
+  $credits = -100;
+  $transaction_type = 'piggy_bank';
+  
+  $balance = $this->transactionService->getLastExecutedTransaction($title, $transaction_type)->getBalance();
 	
-	$balance = $this->transactionService->getLastExecutedTransaction($title, $transaction_type)->getBalance();
-	
-	
-	if ($balance < 100){
-		echo '<script>alert("You do not have enough credits on you account to make this transaction. <br> You can buy more credits from your group page.<br><em>It costs 100 credits to extend the membership with one month for one person.</em>")</script>';	
-	}
-	else {
-		$transaction = Transaction::create(array(      
-    	'id' => NULL,
-    	'target_entity' => $piggyId,
-    	'type' => 'piggy_bank',
-    	'target_type' => 'workgroup',
-    	'field_amount' => $credits,
-    	'field_log_message' => 'Activated member - 1 month',
-    	'uid' => $currentUser->id(),
-    	'status' => TRUE,
+  if ($balance < 100){
+    echo '<script>alert("You do not have enough credits on you account to make this transaction. <br> You can buy more credits from your group page.<br><em>It costs 100 credits to extend the membership with one month for one person.</em>")</script>';	
+  }
+  else {
+    $transaction = Transaction::create(array(      
+    'id' => NULL,
+    'target_entity' => $piggyId,
+    'type' => 'piggy_bank',
+    'target_type' => 'workgroup',
+    'field_amount' => $credits,
+    'field_log_message' => 'Activated member - 1 month',
+    'uid' => $currentUser->id(),
+    'status' => TRUE,
     ));
       
-  	$transaction->save();		
+  $transaction->save();		
   	
-  	$expiredatestamp = $entity->get('field_expiration')->getString();
-		$expiredate = date('d-m-Y H:i:s', $expiredatestamp);
-		$today = date('d-m-Y H:i:s'); 
+  $expiredatestamp = $entity->get('field_expiration')->getString();
+  $expiredate = date('d-m-Y H:i:s', $expiredatestamp);
+  $today = date('d-m-Y H:i:s'); 
   	
-  	if ($expiredate < $today) {
+  if ($expiredate < $today) {
+  $newdatestamp = strtotime($today."+ 1 month");
+  } else {
+  $newdatestamp = strtotime($expiredate."+ 1 month");
+  }
 		
-		$newdatestamp = strtotime($today."+ 1 month");
-						
-		} else {
+  $entity->field_expiration = $newdatestamp;
+  $entity->save();
 		
-		$newdatestamp = strtotime($expiredate."+ 1 month");
-				
-		}
+  $role_id = implode('-', [
+    $this->$entity->$membership->getGroupEntityType(),
+    $this->$entity->$membership->getGroupBundle(),
+    $role_name,
+  ]);
+  // Only add the role if it is valid and doesn't exist yet.
+  $role = OgRole::load($role_id);
+  if ($membership->isRoleValid($role) && !$membership->hasRole($role_id)) 			{
+    $membership->addRole($role)->save();
+    }
 		
-		$entity->field_expiration = $newdatestamp;
-		$entity->save();
-		
-		$role_id = implode('-', [
-      $this->$entity->$membership->getGroupEntityType(),
-      $this->$entity->$membership->getGroupBundle(),
-      $role_name,
-    ]);
-    // Only add the role if it is valid and doesn't exist yet.
-    $role = OgRole::load($role_id);
-    if ($membership->isRoleValid($role) && !$membership->hasRole($role_id)) 			{
-      $membership->addRole($role)->save();
-    	}
-		
-		$this->$entity->$user->addRole($rid);
-		$entity->save();
-		}
-	}
+  $this->$entity->$user->addRole($rid);
+  $entity->save();
+    }
+  }
 	
-
-
   /**
    * {@inheritdoc}
    */
