@@ -12,7 +12,6 @@ use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Entity\EntityTypeRepositoryInterface;
 use Drupal\Tests\UnitTestCase;
 use Drupal\og\MembershipManager;
-use Drupal\og\GroupTypeManagerInterface;
 use Drupal\og\OgGroupAudienceHelperInterface;
 use Drupal\og\OgMembershipInterface;
 use Drupal\user\UserInterface;
@@ -33,13 +32,6 @@ class CreateMembershipTest extends UnitTestCase {
    */
   protected $entityTypeManager;
   
-  /**
-   * The group type manager.
-   *
-   * @var \Drupal\og\GroupTypeManager|\Prophecy\Prophecy\ObjectProphecy
-   */
-  protected $groupTypeManager;
-
   /**
    * The mocked entity type repository.
    *
@@ -115,7 +107,6 @@ class CreateMembershipTest extends UnitTestCase {
     $this->entityStorage = $this->prophesize(EntityStorageInterface::class);
     $this->entityTypeManager = $this->prophesize(EntityTypeManagerInterface::class);
     $this->entityTypeRepository = $this->prophesize(EntityTypeRepositoryInterface::class);
-    $this->groupTypeManager = $this->prophesize(GroupTypeManagerInterface::class);
     $this->groupAudienceHelper = $this->prophesize(OgGroupAudienceHelperInterface::class);
     $this->staticCache = $this->prophesize(MemoryCacheInterface::class);
 
@@ -125,9 +116,6 @@ class CreateMembershipTest extends UnitTestCase {
     $this->entityTypeRepository->getEntityTypeFromClass('Drupal\og\Entity\OgMembership')
       ->willReturn('og_membership');
     
-    $this->groupTypeManager->getGroupMembershipType($this->entityTypeId, $this->bundle)
-      ->willReturn('default');
-
     // Create a mocked Og Membership entity.
     /** @var \Drupal\og\OgMembershipInterface|\Prophecy\Prophecy\ObjectProphecy $membership_entity */
     $membership_entity = $this->prophesize(OgMembershipInterface::class);
@@ -138,12 +126,6 @@ class CreateMembershipTest extends UnitTestCase {
 
     // Create a mocked test group.
     $this->group = $this->prophesize(ContentEntityInterface::class);
-
-    $this->group->getEntityTypeId()
-      ->willReturn($this->entityTypeId);
-
-    $this->group->bundle()
-      ->willReturn($this->bundle);
 
     // Create a mocked test user.
     $this->user = $this->prophesize(UserInterface::class);
@@ -168,7 +150,7 @@ class CreateMembershipTest extends UnitTestCase {
    * @covers ::createMembership
    */
   public function testNewGroup() {
-    $membership_manager = new MembershipManager($this->entityTypeManager->reveal(), $this->groupTypeManager->reveal(), $this->groupAudienceHelper->reveal(), $this->staticCache->reveal());
+    $membership_manager = new MembershipManager($this->entityTypeManager->reveal(), $this->groupAudienceHelper->reveal(), $this->staticCache->reveal());
     $membership = $membership_manager->createMembership($this->group->reveal(), $this->user->reveal());
     $this->assertInstanceOf(OgMembershipInterface::class, $membership);
   }
