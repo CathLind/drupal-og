@@ -196,11 +196,7 @@ class GroupSubscribeFormatterTest extends UnitTestCase {
       ->id()
       ->willReturn($this->entityId);
 
-    $this->groupTypeManager->isGroup($this->entityTypeId, $this->bundle)
-      ->willReturn(TRUE);
-
-    $this->groupTypeManager->getGroupMembershipType($this->entityTypeId, $this->bundle)
-      ->willReturn('default');
+    $this->groupTypeManager->isGroup($this->entityTypeId, $this->bundle)->willReturn(TRUE);
 
     $this->entityTypeManager->getStorage('user')
       ->willReturn($this->entityStorage->reveal());
@@ -373,9 +369,7 @@ class GroupSubscribeFormatterTest extends UnitTestCase {
       [],
       $this->accountProxy->reveal(),
       $this->ogAccess->reveal(),
-      $this->entityTypeManager->reveal(),
-      $this->groupTypeManager->reveal()
-    );
+     $this->entityTypeManager->reveal()    );
     return $formatter->viewElements($this->fieldItemList->reveal(), $this->randomMachineName());
   }
 
