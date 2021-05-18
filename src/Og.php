@@ -195,14 +195,13 @@ class Og {
    * @param \Drupal\Core\Session\AccountInterface $user
    *   The user object.
    * @param string $membership_type
-   (optional) The membership type. Defaults to the type set for the group
-   *   type.
+   *   (optional) The membership type. Defaults to
    *   \Drupal\og\OgMembershipInterface::TYPE_DEFAULT.
    *
    * @return \Drupal\og\Entity\OgMembership
    *   The unsaved membership object.
    */
-  public static function createMembership(EntityInterface $group, AccountInterface $user, $membership_type = NULL) {
+  public static function createMembership(EntityInterface $group, AccountInterface $user, $membership_type = OgMembershipInterface::TYPE_DEFAULT) {
     /** @var \Drupal\og\MembershipManagerInterface $membership_manager */
     $membership_manager = \Drupal::service('og.membership_manager');
     return $membership_manager->createMembership($group, $user, $membership_type);
