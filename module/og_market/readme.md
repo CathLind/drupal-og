@@ -8,7 +8,7 @@
         ***     ***  ***  ***           ***
         ***      ******  ***             ***
 
-Catherine Lind https://github.com/CathLind/drupal_og
+Catherine Lind https://github.com/CathLind
 *****************************************************
 ***  Piggy Bank                                   ***
 *****************************************************
