@@ -3,3 +3,5 @@ description: The settings for the grouptype Workgroup
 package: Organic Groups
 core_version_requirement: ^8.8 || ^9
 type: module
+dependencies:
+  - scheduler
