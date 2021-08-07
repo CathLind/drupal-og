@@ -41,7 +41,7 @@ class OgAutocomplete extends EntityAutocomplete {
     // in the route parameters.
     $selection_settings = isset($element['#selection_settings']) ? $element['#selection_settings'] : [];
     $data = serialize($selection_settings) . $element['#target_type'] . $element['#selection_handler'];
-    $selection_settings_key = Crypt::hmacBase64($data, Settings::getHashSalt());
+    $selection_settings_key = Crypt::hmacBase64($data, \Drupal::service('private_key')->get() . Settings::getHashSalt());
 
     $key_value_storage = \Drupal::keyValue('entity_autocomplete');
         if (!$key_value_storage->has($selection_settings_key)) {
