@@ -85,9 +85,9 @@ use Drupal\user\UserInterface;
  *     },
  *   },
  *   links = {
+ *     "canonical" = "/group/{entity_type_id}/{group}/admin/members/{og_membership}/edit",
  *     "edit-form" = "/group/{entity_type_id}/{group}/admin/members/{og_membership}/edit",
  *     "delete-form" = "/group/{entity_type_id}/{group}/admin/members/{og_membership}/delete",
- *     "canonical" = "/group/{entity_type_id}/{group}/admin/members/{og_membership}/edit"
  *   },
  *   field_ui_base_route = "entity.og_membership_type.edit_form"
  * )
@@ -295,7 +295,20 @@ class OgMembership extends ContentEntityBase implements OgMembershipInterface {
       ];
     }
     $roles = array_merge($roles, $this->get('roles')->referencedEntities());
-    return $roles;
+     return array_filter($roles, [$this, 'isRoleInterface']);
+  }
+
+  /**
+   * Callback for array_filter().
+   *
+   * @param mixed $role
+   *   A role or entity ID or NULL.
+   *
+   * @return bool
+   *   TRUE if $role is an object of the expected interface.
+   */
+  protected function isRoleInterface($role) {
+    return $role instanceof OgRoleInterface;
   }
 
   /**
