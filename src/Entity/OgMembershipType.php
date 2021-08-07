@@ -84,7 +84,7 @@ if ($this->isSyncing()) {
 
     if ($status === SAVED_NEW) {
       FieldConfig::create([
-        'field_name' => 'og_membership_request',
+        'field_name' => OgMembershipInterface::REQUEST_FIELD,
         'entity_type' => 'og_membership',
         'bundle' => $this->id(),
         'label' => 'Request Membership',
