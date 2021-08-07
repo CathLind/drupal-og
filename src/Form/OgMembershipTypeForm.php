@@ -91,7 +91,7 @@ class OgMembershipTypeForm extends BundleEntityFormBase {
    * {@inheritdoc}
    */
   public function validateForm(array &$form, FormStateInterface $form_state) {
-    parent::validateForm($form, $form_state);
+     parent::validateForm($form, $form_state);
 
     $id = trim($form_state->getValue('type'));
     // '0' is invalid, since elsewhere we check it using empty().
