@@ -5,6 +5,7 @@ declare(strict_types = 1);
 namespace Drupal\og;
 
 use Drupal\Core\Access\AccessResult;
+use Drupal\Core\Cache\RefinableCacheableDependencyInterface;
 use Drupal\Core\Entity\EntityAccessControlHandler;
 use Drupal\Core\Entity\EntityHandlerInterface;
 use Drupal\Core\Entity\EntityInterface;
@@ -152,6 +153,44 @@ class OgMembershipAccessControlHandler extends EntityAccessControlHandler implem
     }
 
     return AccessResult::neutral();
+  }
+  
+  /**
+   * {@inheritdoc}
+   */
+  protected function checkFieldAccess($operation, FieldDefinitionInterface $field_definition, AccountInterface $account, FieldItemListInterface $items = NULL) {
+    /** @var \Drupal\og\OgMembershipInterface $membership */
+    $membership = $items ? $items->getEntity() : NULL;
+
+    $administrative_fields = ['uid', 'state', 'roles'];
+    if ($operation === 'edit' && in_array($field_definition->getName(), $administrative_fields, TRUE)) {
+      $access = AccessResult::allowedIfHasPermission($account, 'administer organic groups')->addCacheableDependency($membership);
+      if (!$membership || $access->isAllowed()) {
+        return $access;
+      }
+      $permissions = [
+        OgAccess::ADMINISTER_GROUP_PERMISSION,
+        'manage members',
+      ];
+      $group = $membership->getGroup();
+      foreach ($permissions as $permission) {
+        $result = $this->ogAccess->userAccess($group, $permission, $account);
+        if ($result instanceof RefinableCacheableDependencyInterface) {
+          $result->addCacheableDependency($membership);
+        }
+        if ($result->isAllowed()) {
+          return $result;
+        }
+      }
+      // Return the last result, which must be denied.
+      return $result;
+      
+          }
+
+    if ($membership && $membership->isActive() && $field_definition->getName() === OgMembershipInterface::REQUEST_FIELD) {
+      return AccessResult::forbidden()->addCacheableDependency($membership);
+    }
+    return AccessResult::allowed()->addCacheableDependency($membership);
   }
 
 }
