@@ -48,7 +48,7 @@ function og_ui_entity_update(EntityInterface $entity) {
 }
 
 /**
- * Helper to save group information.
+ * Helper to save group information when a bundle entity is saved.
  *
  * @param \Drupal\Core\Entity\EntityInterface $entity
  *   The entity object.
