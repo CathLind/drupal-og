@@ -10,12 +10,15 @@ use Drupal\Core\Entity\EntityAccessControlHandler;
 use Drupal\Core\Entity\EntityHandlerInterface;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityTypeInterface;
+use Drupal\Core\Field\FieldDefinitionInterface;
+use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\Core\Language\LanguageInterface;
 use Drupal\Core\Session\AccountInterface;
+use Drupal\user\EntityOwnerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Defines the OG membershipimplementation for entity access control handler.
+ * Defines the OG membership implementation for entity access control handler.
  */
 class OgMembershipAccessControlHandler extends EntityAccessControlHandler implements EntityHandlerInterface {
 
@@ -27,17 +30,26 @@ class OgMembershipAccessControlHandler extends EntityAccessControlHandler implem
   protected $ogAccess;
 
   /**
+   * The OG Membership Manager service.
+   *
+   * @var \Drupal\og\MembershipManagerInterface
+   */
+  protected $membershipManager;
+
+  /**
    * Constructs a OgMembershipAccessControllHandler object.
    *
    * @param \Drupal\Core\Entity\EntityTypeInterface $entity_type
    *   The entity type definition.
    * @param \Drupal\og\OgAccessInterface $og_access
    *   The OG access service.
+   * @param \Drupal\og\MembershipManagerInterface $membership_manager
+   *   The OG Membership Manager service.
    */
-  public function __construct(EntityTypeInterface $entity_type, OgAccessInterface $og_access) {
-    $this->entityTypeId = $entity_type->id();
-    $this->entityType = $entity_type;
+  public function __construct(EntityTypeInterface $entity_type, OgAccessInterface $og_access, MembershipManagerInterface $membership_manager) {
+    parent::__construct($entity_type);
     $this->ogAccess = $og_access;
+    $this->membershipManager = $membership_manager;
   }
 
   /**
@@ -46,18 +58,24 @@ class OgMembershipAccessControlHandler extends EntityAccessControlHandler implem
   public static function createInstance(ContainerInterface $container, EntityTypeInterface $entity_type) {
     return new static(
       $entity_type,
-      $container->get('og.access')
+      $container->get('og.access'),
+      $container->get('og.membership_manager')
     );
   }
 
   /**
    * {@inheritdoc}
    */
-  protected function checkAccess(EntityInterface $entity, $operation, AccountInterface $account) {
-    $group = $entity->getGroup();
+  protected function checkAccess(EntityInterface $membership, $operation, AccountInterface $account) {
+    $group = $membership->getGroup();
 
     // Do not allow deleting the group owner's membership.
-    if (($operation === 'delete') && ($group instanceof EntityOwnerInterface) && ($group->getOwnerId() == $entity->getOwner()->id())) {
+    if ($operation === 'delete' && ($group instanceof EntityOwnerInterface) && ($group->getOwnerId() == $membership->getOwner()->id())) {
+      return AccessResult::forbidden();
+    }
+
+    // Ensure that there's at least one active membership in the group.
+    if ($operation === 'delete' && $this->membershipManager->getGroupMembershipCount($group) === 1) {
       return AccessResult::forbidden();
     }
 
@@ -75,7 +93,6 @@ class OgMembershipAccessControlHandler extends EntityAccessControlHandler implem
     }
 
     return AccessResult::neutral();
-
   }
 
   /**
@@ -154,7 +171,7 @@ class OgMembershipAccessControlHandler extends EntityAccessControlHandler implem
 
     return AccessResult::neutral();
   }
-  
+
   /**
    * {@inheritdoc}
    */
@@ -184,8 +201,7 @@ class OgMembershipAccessControlHandler extends EntityAccessControlHandler implem
       }
       // Return the last result, which must be denied.
       return $result;
-      
-          }
+    }
 
     if ($membership && $membership->isActive() && $field_definition->getName() === OgMembershipInterface::REQUEST_FIELD) {
       return AccessResult::forbidden()->addCacheableDependency($membership);
