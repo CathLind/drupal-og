@@ -13,7 +13,7 @@ entity.og_role.collection:
 entity.og_role.add_form:
   path: 'admin/config/group/roles/{entity_type_id}/{bundle_id}/add'
   defaults:
-    _entity_form: og_role.default
+    _entity_form: 'og_role.default'
     _title: 'Add role'
   requirements:
     _permission: 'administer organic groups'
@@ -21,7 +21,7 @@ entity.og_role.add_form:
 entity.og_role.edit_form:
   path: 'admin/config/group/role/{og_role}/edit'
   defaults:
-    _entity_form: og_role.default
+    _entity_form: 'og_role.default'
     _title_callback: '\Drupal\og_ui\Form\OgRoleForm::editRoleTitleCallback'
   requirements:
     _entity_access: 'og_role.update'
@@ -29,7 +29,7 @@ entity.og_role.edit_form:
 entity.og_role.delete_form:
   path: 'admin/config/group/role/{og_role}/delete'
   defaults:
-    _entity_form: og_role.delete
+    _entity_form: 'og_role.delete'
   requirements:
     _entity_access: 'og_role.delete'
 
@@ -38,7 +38,7 @@ og.subscribe:
   defaults:
     _controller: '\Drupal\og\Controller\SubscriptionController::subscribe'
     _title: 'Join Group'
-    og_membership_type: default
+    og_membership_type: 'default'
   requirements:
     # Only authenticated users can subscribe to group, but we do allow anonymous
     # users to reach this route. They will be redirect to login page or be given
