@@ -423,7 +423,7 @@ display:
           entity_type: og_membership
           entity_field: roles
           plugin_id: field
-                operations:
+        operations:
           id: operations
           table: og_membership
           field: operations
