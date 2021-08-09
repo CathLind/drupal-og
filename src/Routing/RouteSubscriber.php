@@ -97,7 +97,7 @@ class RouteSubscriber extends RouteSubscriberBase {
         // As the above parameters doesn't send the entity,
         // so we will have to use the Route matcher to extract it.
         ->setOption('_og_entity_type_id', $entity_type_id)
-        ->setOption('_admin_route', TRUE);
+        ->setOption('_admin_route', 'TRUE');
 
       $collection->add($route_name, $route);
 
