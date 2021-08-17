@@ -12,7 +12,6 @@ use Drupal\user\UserInterface;
 use Drupal\og\Og;
 use Drupal\og\Entity\OgRole;
 use Drupal\og\MembershipManagerInterface;
-use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\transaction\Entity\Transaction;
 use Drupal\transaction\Entity\TransactionOperation;
 
